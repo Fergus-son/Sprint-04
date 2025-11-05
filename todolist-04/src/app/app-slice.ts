@@ -25,8 +25,13 @@ export const appSlice = createSlice({
         changeThemeModeAC: create.reducer<{ themeMode: ThemeMode }>((state, action) => {
             state.themeMode = action.payload.themeMode
         })
-    })
+    }),
+    selectors: {
+        selectThemeMode: state => state.themeMode
+    }
 })
+
+export const { selectThemeMode } = appSlice.selectors
 
 export const { changeThemeModeAC } = appSlice.actions
 

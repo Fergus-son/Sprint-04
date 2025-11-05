@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../../../../../../common/hooks/useAppDispatch
 import { ChangeEvent } from "react";
 import { Task } from "../../../Todolists";
 import DeleteIcon from '@mui/icons-material/Delete'
-import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC } from "@/features/todolists/model/tasks-reducer";
+import { changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC } from "@/features/todolists/model/tasks-slice";
 
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
     task: Task
 }
 
-export const TaskItem = ({todolistId, task}: Props) => {
+export const TaskItem = ({ todolistId, task }: Props) => {
 
     const dispatch = useAppDispatch()
 

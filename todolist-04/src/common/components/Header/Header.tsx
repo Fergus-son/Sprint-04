@@ -2,8 +2,7 @@ import { useAppDispatch } from "@/common/hooks/useAppDispatch";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { getTheme } from "../../theme/theme";
 import MenuIcon from '@mui/icons-material/Menu'
-import { selectThemeMode } from "@/app/app-selector";
-import { changeThemeModeAC } from "@/app/app-slice";
+import { changeThemeModeAC, selectThemeMode } from "@/app/app-slice";
 import { AppBar, Container, IconButton, Switch, Toolbar } from "@mui/material";
 import { containerSx } from "@/features/todolists/ui/Todolists/TodolistItem/TodolistItem.styles";
 import { NavButton } from "@/common/components/NavButton/NavButton";

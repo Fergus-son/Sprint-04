@@ -1,10 +1,10 @@
 import './App.css'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { useAppSelector } from '@/common/hooks/useAppSelector'
-import { selectThemeMode } from './app-selector'
 import { getTheme } from '@/common/theme/theme'
 import { Header } from '@/common/components/Header/Header'
 import { Main } from './Main'
+import { selectThemeMode } from './app-slice'
 
 
 export type FilterValues = 'all' | 'active' | 'completed'

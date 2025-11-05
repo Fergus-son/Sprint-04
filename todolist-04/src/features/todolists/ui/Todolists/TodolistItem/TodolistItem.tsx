@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../../../common/hooks/useAppDispatch"
 import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
 import { Tasks } from "./Tasks/Tasks"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
-import { createTaskAC } from "@/features/todolists/model/tasks-reducer"
+import { createTaskAC } from "@/features/todolists/model/tasks-slice"
 
 
 type TodolistItemType = {
@@ -16,14 +16,14 @@ export const TodolistItem = ({ todolist }: TodolistItemType) => {
   const dispatch = useAppDispatch()
 
   const createTask = (title: string) => {
-    const action = createTaskAC(todolist.id, title)
+    const action = createTaskAC({ todolistId: todolist.id, title })
     dispatch(action)
   }
   return (
 
     <div>
       <TodolistTitle todolist={todolist} />
-      <CreateItemForm createItem={createTask} />
+      <CreateItemForm onCreateItem={createTask} />
       <Tasks todolist={todolist} />
       <FilterButtons todolist={todolist} />
     </div>
