@@ -1,9 +1,11 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { FilterValues, TodolistsType } from "../ui/Todolists/Todolists";
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { FilterValues } from "../ui/Todolists/Todolists";
+import { Todolist } from "../api/todolistsApi.types";
+import { todolistsApi } from "../api/todolistsApi";
 
 export const todolistsSlice = createSlice({
     name: 'todolists',
-    initialState: [] as TodolistsType[],
+    initialState: [] as DomainTodolist[],
     reducers: create => ({
         deleteTodolistAC: create.reducer<{ id: string }>((state, action) => {
             const index = state.findIndex(todolist => todolist.id === action.payload.id)
@@ -11,12 +13,12 @@ export const todolistsSlice = createSlice({
                 state.splice(index, 1)
             }
         }),
-        changeTodolistTitleAC: create.reducer<{ id: string, title: string }>((state, action) => {
-            const index = state.findIndex(todolist => todolist.id === action.payload.id)
-            if (index !== -1) {
-                state[index].title = action.payload.title
-            }
-        }),
+        // changeTodolistTitleAC: create.reducer<{ id: string, title: string }>((state, action) => {
+        //     const index = state.findIndex(todolist => todolist.id === action.payload.id)
+        //     if (index !== -1) {
+        //         state[index].title = action.payload.title
+        //     }
+        // }),
         changeTodolistFilterAC: create.reducer<{ id: string, filter: FilterValues }>((state, action) => {
             const todolist = state.find(todolist => todolist.id === action.payload.id)
             if (todolist) {
@@ -26,15 +28,58 @@ export const todolistsSlice = createSlice({
         createTodolistAC: create.preparedReducer(
             (title: string) => ({ payload: { title, id: nanoid() } }),
             (state, action) => {
-                state.push({ ...action.payload, filter: 'all' })
-            }
-        )
+                state.push({ ...action.payload, filter: 'all', addedDate: '', order: 0 })
+            })
     }),
+    extraReducers: builder => {
+        builder.addCase(fetchTodolistsTC.fulfilled, (state, action) => {
+            return action.payload.todolists.map(tl => {
+                return { ...tl, filter: 'all' }
+            })
+        })
+            .addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
+                const index = state.findIndex(todolist => todolist.id === action.payload.id)
+                if (index !== -1) {
+                    state[index].title = action.payload.title
+                }
+            })
+            .addCase(fetchTodolistsTC.rejected, (state, action) => {
+            })
+            .addCase(changeTodolistTitleTC.rejected, (state, action) => {
+            })
+    }
 })
 
-export const { deleteTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC, createTodolistAC } = todolistsSlice.actions
+export const fetchTodolistsTC = createAsyncThunk(
+    `${todolistsSlice.name}/fetchTodolistsTC`,
+    async (_, thunkApi) => {
+        try {
+            const res = await todolistsApi.getTodolists()
+            return { todolists: res.data }
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    })
+
+export const changeTodolistTitleTC = createAsyncThunk(
+    `${todolistsSlice.name}/changeTodolistTitleTC`,
+    async (payload: { id: string, title: string }, thunkApi) => {
+        try {
+            await todolistsApi.changeTodolistTitle(payload)
+            return payload
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+// export const { deleteTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC, createTodolistAC } = todolistsSlice.actions
+export const { deleteTodolistAC, changeTodolistFilterAC, createTodolistAC } = todolistsSlice.actions
 
 export const todolistsReducer = todolistsSlice.reducer
+
+export type DomainTodolist = Todolist & {
+    filter: FilterValues
+}
 
 
 
