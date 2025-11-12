@@ -2,7 +2,7 @@ import { List } from "@mui/material";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { TodolistsType } from "../../Todolists";
 import { TaskItem } from "./TaskItem/TaskItem";
-import { selectTasks } from "@/features/todolists/model/tasks-selectors";
+import { selectTasks } from "@/features/todolists/model/tasks-slice";
 
 
 type Props = {

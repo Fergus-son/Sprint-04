@@ -3,7 +3,7 @@ import { useAppDispatch } from "../../../../../../common/hooks/useAppDispatch";
 import { EditableSpan } from "../../../../../../common/components/EditableSpan/EditableSpan";
 import { TodolistsType } from "../../Todolists";
 import DeleteIcon from '@mui/icons-material/Delete'
-import { changeTodolistTitleTC, deleteTodolistAC } from "@/features/todolists/model/todolists-slice";
+import { changeTodolistTitleTC, deleteTodolistTC } from "@/features/todolists/model/todolists-slice";
 
 
 type Props = {
@@ -18,7 +18,7 @@ export const TodolistTitle = ({ todolist }: Props) => {
     }
 
     const deleteTodoList = (todoListId: string) => {
-        dispatch(deleteTodolistAC({ id: todoListId }))
+        dispatch(deleteTodolistTC({ id: todoListId }))
     }
 
     return (

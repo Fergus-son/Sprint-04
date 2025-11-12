@@ -1,11 +1,9 @@
 import { Grid, Paper } from "@mui/material";
 import { TodolistItem } from "./TodolistItem/TodolistItem";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
-import { selectTodolists } from "../../model/todolists-selectors";
 import { useEffect } from "react";
-import { todolistsApi } from "../../api/todolistsApi";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import { fetchTodolistsTC } from "../../model/todolists-slice";
+import { fetchTodolistsTC, selectTodolists } from "../../model/todolists-slice";
 
 export type TodolistsType = {
     id: string,
